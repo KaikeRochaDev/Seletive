@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filtro %}
+
 {% block 'head'%}
     <link rel="stylesheet" href="{% static 'empresa/css/empresas.css'%}">
 {% endblock %}
@@ -49,11 +51,11 @@
                     </tr>
 
                         {% for empresa in empresas%}
-                            <tr class="tabela-linha" >
+                            <tr {% if not forloop.counter|is_par %} class="tabela-linha" {% endif %}>
                                 <td>{{empresa.nome}}</td>
                                 <td>{{empresa.endereco}}</td>
                                 <td>
-                                    <select class="form-select">       {% for tec in tecnologias%}
+                                    <select class="form-select">       {% for tec in empresa.tecnologias.all%}
                                             <option>{{tec}}</option>
                                         {% endfor%}
                                     </select>
