@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Tecnologias, Empresa
 from django.contrib.messages import constants
 from django.contrib import messages
@@ -64,3 +64,7 @@ def excluir_empresa(request, id):
     empresa.delete()
     messages.add_message(request, constants.SUCCESS, 'Empresa excluída com sucesso')
     return redirect('/home/empresas')
+
+def empresa(request, id):
+    empresa_unica = get_object_or_404(Empresa, id=id)
+    return render(request, 'empresa_unica.html', {'empresa': empresa_unica})
