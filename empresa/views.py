@@ -45,3 +45,8 @@ def nova_empresa(request):
         except:
             messages.add_message(request, constants.ERROR, 'Erro interno no sistema')
             return redirect('/home/nova_empresa')
+        
+def empresas(request):
+    empresas = Empresa.objects.all()
+    tecnologias = Tecnologias.objects.all()
+    return render(request, 'empresa.html', {'empresas': empresas, 'tecnologias': tecnologias})
