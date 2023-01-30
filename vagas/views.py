@@ -60,3 +60,17 @@ def nova_tarefa(request, id_vaga):
     except: 
         messages.add_message(request, constants.ERROR, 'Erro interno no sistema')
         return redirect(f'/vagas/vaga/{id_vaga}')
+    
+    
+def realizar_tarefa(request, id):
+    tarefa_list = Tarefa.objects.filter(id=id).filter(realizada=False)
+    
+    if not tarefa_list.exists():
+        messages.add_message(request, constants.ERROR, 'Erro interno do sistema!')
+        return redirect(f'/home/empresas/')
+    
+    tarefa = tarefa_list.first()
+    tarefa.realizada = True
+    tarefa.save()    
+    messages.add_message(request, constants.SUCCESS, 'Tarefa realizada com sucesso, parabéns!')
+    return redirect(f'/vagas/vaga/{tarefa.vaga.id}')
