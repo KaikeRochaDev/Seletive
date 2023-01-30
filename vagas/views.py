@@ -46,20 +46,17 @@ def vaga(request, id):
 
 def nova_tarefa(request, id_vaga):
     titulo = request.POST.get('titulo')
-    prioridade = request.POST.get('prioridade')
+    prioridade = request.POST.get("prioridade")
     data = request.POST.get('data')
     
     try:
-        tarefa = Tarefa(vaga_id=id_vaga, 
-                        titulo=titulo, prioridade=prioridade, 
-                        data=data
-                        )
-
+        tarefa = Tarefa(vaga_id=id_vaga,
+                        titulo=titulo,
+                        prioridade=prioridade,
+                        data=data)
         tarefa.save()
-        
-        messages.add_message(request, constants.SUCCESS, 'Tarefa adicionada com sucesso')
-        return redirect(f'vagas/vaga/{id_vaga}')
-    
-    except:
+        messages.add_message(request, constants.SUCCESS, 'Tarefa criada com sucesso')
+        return redirect(f'/vagas/vaga/{id_vaga}')
+    except: 
         messages.add_message(request, constants.ERROR, 'Erro interno no sistema')
-        return redirect(f'vagas/vaga/{id_vaga}')
+        return redirect(f'/vagas/vaga/{id_vaga}')
