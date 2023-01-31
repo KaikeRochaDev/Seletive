@@ -93,7 +93,7 @@
             </div>
 
             <div class="col-md">
-                <form>
+                <form action="{% url "envia_email" vaga.id %}" method="POST"> {% csrf_token %}
                     <label>Assunto:</label>
                     <input name="assunto" type="text" class="form-control" placeholder="assunto">
                     <br>
@@ -113,20 +113,22 @@
             <div class="row"> 
                 <h3 class="titulo">Histórico de e-mails</h3>
                 
+                {% for email in emails %}
                     <div class="col-md">
 
                         <div class="box-email">
                             <div class="header-email">
-                                Assunto
+                                {{email.assunto}}
                             </div>
 
                             <div class="body-email">
-                                Corpo do email
+                                {{email.corpo}}
                             </div>
                             
                         </div>
             
                     </div>
+                {% endfor %}
                 
                 
                   
