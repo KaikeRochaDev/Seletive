@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from empresa.models import Vagas
 from django.contrib import messages
 from django.contrib.messages import constants
@@ -90,7 +90,7 @@ def envia_email(request, id_vaga):
     
     html_content = render_to_string('emails/template_email.html', {'corpo': corpo})
     text_content = strip_tags(html_content)
-    email = EmailMultiAlternatives(assunto, text_content, settings.EMAIL_HOST_USER, [vaga.email, ])
+    email = EmailMultiAlternatives(assunto, text_content, settings.EMAIL_HOST_USER, [vaga.email, 'kaikerocha350@gmail.com'])
     email.attach_alternative(html_content, 'text/html')
     
     if email.send():
@@ -113,3 +113,33 @@ def envia_email(request, id_vaga):
         mail.save()
         messages.add_message(request, constants.ERROR, 'Não conseguimos enviar o seu email')
         return redirect(f'/vagas/vaga/{id_vaga}')
+    
+def tecnologia_status(request, id_vaga):
+    if request.method == 'POST':
+        vaga = get_object_or_404(Vagas, id=id_vaga)
+
+        try:
+            tecnologia1 = request.POST.get('tecnologia_dominada')
+            tecnologia2 = request.POST.get('tecnologia_estudar')
+
+            if tecnologia1:
+                vaga.tecnologias_dominadas.remove(tecnologia1)
+                vaga.tecnologias_estudar.add(tecnologia1)
+                vaga.save()
+
+            if tecnologia2:
+                vaga.tecnologias_estudar.remove(tecnologia2)
+                vaga.tecnologias_dominadas.add(tecnologia2)
+                vaga.save()
+
+            return redirect(f'/vagas/vaga/{id_vaga}#tecnologias')
+
+        except:
+            messages.add_message(
+                request,
+                constants.ERROR,
+                message='Erro ao realizar a operação.'
+            )
+            return redirect(f'/vagas/vaga/{id_vaga}')
+
+    raise Http404()

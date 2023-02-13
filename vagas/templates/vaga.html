@@ -138,30 +138,69 @@
         </div>
     </div>
 
-    <div class="container bg3">
+    <div class="container bg3" align="center">
         <div class="row">
             <div class="col-md">
-                <p class="titulo2">Tecnologias que domino</p>
-
-                <div class="li-tech">
-                    Python
-
-                    <svg class="arrow-right" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                    </svg>
-                </div>
-
+                <p class="titulo2" id="tecnologias">Tecnologias que domino</p>
+                <form action="{% url 'tecnologia_status' vaga.id %}" method="POST"> {% csrf_token %}
+                    {% for tecnologia_dominada in vaga.tecnologias_dominadas.all %}
+                        <div class="li-tech">
+                            <table class="tabela">
+                                <tr>
+                                    <td style="width: 90%;">
+                                        &nbsp;&nbsp;
+                                        <strong>{{ tecnologia_dominada }}</strong>
+                                    </td>
+                                    <td align="right" style="width: 10%;">
+                                        <button style="background-color: transparent;
+                                        background-repeat: no-repeat;
+                                        border: none;
+                                        cursor: pointer;
+                                        overflow: hidden;
+                                        width: 30px;
+                                        height: 30px;" class="botao-tecnologia" type="submit" value="{{ tecnologia_dominada.id }}" name="tecnologia_dominada">
+                                            <svg class="arrow-right" xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16" style="color: #fff;">
+                                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    {% empty %}
+                        <hr>
+                    {% endfor %}
             </div>
 
             <div class="col-md">
-                <p class="titulo2">Preciso estudar</p>
-
-                <div class="li-tech">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                    </svg>
-                    Python
-                </div>
+                <p class="titulo2">Tecnologias que preciso estudar</p>
+                    {% for tecnologia_estudar in vaga.tecnologias_estudar.all %}
+                        <div class="li-tech">
+                            <table class="tabela">
+                                <tr>
+                                    <td style="width: 10%;">
+                                        <button style="background-color: transparent;
+                                        background-repeat: no-repeat;
+                                        border: none;
+                                        cursor: pointer;
+                                        overflow: hidden;
+                                        width: 30px;
+                                        height: 30px;" class="botao-tecnologia" type="submit" value="{{ tecnologia_estudar.id }}" name="tecnologia_estudar">
+                                            <svg class="arrow-left" xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16" style="color: #fff;">
+                                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                    <td style="width: 90%;" align="right">
+                                        <strong>{{ tecnologia_estudar }}</strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    {% empty %}
+                        <hr>
+                    {% endfor %}
+                </form>
             </div>
         </div>
     </div>
